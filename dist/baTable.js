@@ -1,5 +1,5 @@
 /*!
- * baTable Version v1.1 (https://github.com/Rabbi728/baTable)
+ * baTable Version v1.2 (https://github.com/Rabbi728/baTable)
  *
  * Author By Rabbi Ahamed
  * Email : RabbiAhamed0728@gmail.com 
@@ -12,16 +12,26 @@
 
         $.fn.baTable = function(param) 
         {
-            el  = $(this);
-            
-            if(el.parent(".container").length > 0){
-                el.parent(".container").html(`<div id="baTable-mainArea">${el.parent().html()}</div>`);
+            el      = $(this);
+            title   = param.title;
+
+            let printButton = ``;
+            if(param.print){
+                printButton = `<div class="col-12 my-2">
+                        <button id="baTable-Print" class="btn btn-sm btn-success float-right mr-2">Print</button>
+                    </div>`;
             }
-            else if(el.parent('.container-fluid').length > 0){
-                el.parent('.container-fluid').html(`<div id="baTable-mainArea">${el.parent().html()}</div>`);
+            
+            if(el.parent(".row").length > 0){
+                el.parent(".row").html(`${printButton}
+                                        <div class="col-12">
+                                            <div id="baTable-mainArea">
+                                                ${el.parent().html()}
+                                            </div>
+                                        </div>`);
             }
             else{
-                alert('The parent class of this table is not a container of any kind');
+                alert('The parent class of this table is not row');
             }
 
             el = $("#baTable-mainArea").find('table');
@@ -33,7 +43,7 @@
             
             if (param.data != undefined && param.keys != undefined) {
                 $.each(param.data, function(i, v){
-                    let tr = `<tr>`;
+                    let tr = `<tr width="100%">`;
                     $.each(param.keys, function(i2, v2) {
                         tr += `<td>${v[v2]}</td>`;
                     });
@@ -66,7 +76,7 @@
             el.find('thead th').not('[width]').attr("width",`${col_size.toFixed(2)}%`);
                         
             el.find('thead').prepend(`<tr width="100%" style="background: #fff; font-size: 10px; color : #000;">
-                                <th width="100%">
+                                <th width="100%" colspan="${param.keys.length}">
                                     <span class="baTable-option float-left mr-2"></span><big class="float-left">${param.title}</big> <big class="float-right">DATE : ${get_timestamp('mysql')}</big>
                                 </th>
                             </tr>`);
@@ -89,8 +99,8 @@
                 el.find('tfoot').addClass(`${tfoot_bg} ${tfoot_text} text-center`);
             }
 
-            input_tr += `<tr>`;
-            tfoot_tr += `<tr>`;
+            input_tr += `<tr width="100%">`;
+            tfoot_tr += `<tr width="100%">`;
             for (let input = 0; input < thead.length; input++) 
             {
                 $(thead[input]).addClass('baTable-head')
@@ -115,16 +125,12 @@
             el.find('thead').append(input_tr);
             el.find('tfoot').html(tfoot_tr);
 
-            el.find('thead, tbody, tfoot').css({"display" : "block", "overflow-y" : "scroll"});
-            el.find('tr').css({"width": "100%", "display": "flex"});
-            el.find('th, td').css({"flex-grow": "2"});
-            el.find('tbody').css({"max-height": "60vh"});
-
             $(document).on('keyup', '.baTable-search', ba_table_search);
             $(document).on('change', '.baTable-search', ba_table_search);
             $(document).on('click', '.baTable-option', generate_col_checkboxes);
             $(document).on('click', '.form-check-input.tbl-head', select_cols);
             $(document).on('click', '.baTable-head', sorting); 
+            $(document).on('click', '#baTable-Print', printData); 
 
             $('body').click(function(event){
                 if ($(event.target).parent('#baTable-mainArea .baTable-optionbar, #baTable-mainArea .baTable-optionbar .form-group').length == 0) {
@@ -226,7 +232,7 @@
            {
                 let 
                    not_found_html = `
-                                    <tr class="not-fount-tr" style="width: 100%; display: flex;">
+                                    <tr width="100%" class="not-fount-tr">
                                         <th class="w-100">
                                             <h4 class="text-center w-100">
                                                 Data Not Found !
@@ -388,6 +394,73 @@
         }
         
         return sum.toLocaleString();
+    }
+
+    function printData()
+    {
+        let selector = $('#baTable-mainArea').find('table');
+
+        newWin= window.open("","_blank");
+        let html = `
+                    <!DOCTYPE html>
+                    <html>
+                        <head>
+                        <title>${title}</title>
+                        <style>
+                                table {
+                                    border-collapse: collapse;
+                                    text-align: center;
+                                    margin : 0 auto;
+                                }
+                                table td, table th {
+                                    border: 1px solid #000;
+                                }
+                                h1 {text-align: center;}
+                                h5 {text-align: center;}
+                                h3 {text-align: center;}
+                                th, td{
+                                    width: auto
+                                }
+                                table thead tr:nth-child(3)
+                                {
+                                    display: none !important;
+                                }
+
+                                table thead tr:nth-child(2)
+                                {
+                                    color: #000;
+                                }
+
+                                table tbody td{
+                                    white-space: normal;
+                                }
+                                table thead tr:nth-child(1) big.float-left{
+                                    float: left;
+                                }
+                                table thead tr:nth-child(1) big.float-right{
+                                    float: right;
+                                }
+                                @media print {
+                                    @-moz-document url-prefix() {
+                                        table {
+                                            border-collapse: unset;
+                                        }
+                                    }
+                                }
+                            </style>
+                        </head>
+                        <body>
+
+                        <h1>${selector.attr('pdfTitle')}<h1>
+                        <h5>${selector.attr('pdfDes')}</h5>
+                        <h3> ${title} </h3>
+                        ${selector.parent().html()}
+
+                        </body>
+                    </html>`;
+        newWin.document.write(html);
+        newWin.print();
+        // newWin.close();
     }
 
     });

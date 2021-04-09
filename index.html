@@ -19,7 +19,7 @@
 
 </head>
 
-<body>
+<body class="bg-light">
     <nav class="navbar navbar-expand-lg navbar-dark sticky-top nav-border-tsc bg2-tsc">
         <div class="container">
             <a class="navbar-brand" href="#">baTable JQuery Plugin</a>
@@ -46,26 +46,32 @@
         </div>
     </nav>
 
-    <div class="container my-5">
-        <table id="ba-table-id">
-            <thead bg="bg-primary" text="text-white">
-                <tr>
-                    <th filter="false" width="5%">Sl</th>
-                    <th filter="true" summaryType="unique-count">Name</th>
-                    <th filter="true">Job Title</th>
-                    <th filter="select" summaryType="unique-count">Gender</th>
-                    <th filter="true">Birth Year</th>
-                    <th filter="select" summaryType="unique-count">Country</th>
-                    <th filter="true">Company</th>
-                    <th filter="true" summaryType="sum">Selary</th>
-                </tr>
-            </thead>
-            <tbody>
+    <div class="container my-3">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <table id="ba-table-id" pdfTitle="Demo Table Title" pdfDes="Demo Table Description">
+                        <thead bg="bg-primary" text="text-white">
+                            <tr>
+                                <th filter="false" width="5%">Sl</th>
+                                <th filter="true" summaryType="unique-count">Name</th>
+                                <th filter="true">Job Title</th>
+                                <th filter="select" summaryType="unique-count">Gender</th>
+                                <th filter="true">Birth Year</th>
+                                <th filter="select" summaryType="unique-count">Country</th>
+                                <th filter="true">Company</th>
+                                <th filter="true" summaryType="sum">Selary</th>
+                            </tr>
+                        </thead>
+                        <tbody>
 
-            </tbody>
-            <tfoot bg="bg-primary" text="text-white">
-            </tfoot>
-        </table>
+                        </tbody>
+                        <tfoot bg="bg-primary" text="text-white">
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
     </div>
 
 </body>

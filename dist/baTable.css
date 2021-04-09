@@ -1,6 +1,5 @@
-
 /*!
- * baTable Version v1.1 (https://github.com/Rabbi728/baTable)
+ * baTable Version v1.2 (https://github.com/Rabbi728/baTable)
  *
  * Author By Rabbi Ahamed
  * Email : RabbiAhamed0728@gmail.com 
@@ -14,6 +13,25 @@
     float: right;
     opacity: 0.6;
   }
+
+  #baTable-mainArea table thead, #baTable-mainArea table tbody, #baTable-mainArea table tfoot{
+    display     : block;
+    overflow-y  : scroll
+  }
+
+  #baTable-mainArea table tr {
+    width    : 100%;
+    display  : flex;
+  }
+
+  #baTable-mainArea table tr th, #baTable-mainArea table tr td {
+    flex-grow : 2;
+  }
+
+  #baTable-mainArea table tbody {
+    max-height : 60vh;
+  }
+
   #baTable-mainArea .baTable-option:after {
     content: ' \2630';
   }
@@ -72,4 +90,21 @@
 #baTable-mainArea table thead tr:nth-child(3) .form-control:focus {
     outline: 0;
     box-shadow: 0 0 0 0 transparent, 0 1px 0 #009688;
+}
+
+@media print
+{    
+    #baTable-mainArea table thead tr:nth-child(3)
+    {
+        display: none !important;
+    }
+
+    #baTable-mainArea table thead tr:nth-child(2)
+    {
+        color: #000;
+    }
+
+    #baTable-mainArea table tbody td{
+        white-space: normal;
+    }
 }
