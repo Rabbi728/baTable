@@ -15,6 +15,32 @@
         {
             el  = $(this);
             
+            if(el.parent(".container").length > 0){
+                el.parent(".container").html(`<div id="baTable-mainArea">${el.parent().html()}</div>`);
+            }
+            else if(el.parent('.container-fluid').length > 0){
+                el.parent('.container-fluid').html(`<div id="baTable-mainArea">${el.parent().html()}</div>`);
+            }
+            else{
+                alert('The parent class of this table is not a container of any kind');
+            }
+
+            el = $("#baTable-mainArea").find('table');
+
+            let optionbar  =    `
+                            <div class="baTable-optionbar p-2">
+                                <ul class="nav flex-column">
+                                    <li class="nav-item dropright">
+                                        <a class="nav-link dropdown-toggle cols-select" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Columns</a>
+                                        <div class="dropdown-menu">
+                                        
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>`;
+
+            $("#baTable-mainArea").append(optionbar);
+            
             if (param.data != undefined && param.keys != undefined) {
                 $.each(param.data, function(i, v){
                     let tr = `<tr>`;
@@ -22,6 +48,7 @@
                         tr += `<td>${v[v2]}</td>`;
                     });
                     tr +=`</tr>`;
+                    
                     el.find('tbody').append(tr);
                 });
             }
@@ -50,7 +77,7 @@
                         
             el.find('thead').prepend(`<tr width="100%" style="background: #fff; font-size: 10px; color : #000;">
                                 <th width="100%">
-                                    <big class="float-left">${param.title}</big> <big class="float-right">DATE : ${get_timestamp('mysql')}</big>
+                                    <span class="baTable-option float-left mr-2"></span><big class="float-left">${param.title}</big> <big class="float-right">DATE : ${get_timestamp('mysql')}</big>
                                 </th>
                             </tr>`);
 
@@ -103,40 +130,12 @@
             el.find('th, td').css({"flex-grow": "2"});
             el.find('tbody').css({"max-height": "60vh"});
 
-            let modal  =    `<div id="ColSelect" class="modal fade" data-backdrop="static" data-keyboard="false" >
-                                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title">Column Selection</h5>
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
-                                        </div>
-                                        <div class="modal-body">
-                                            <p>Modal body text goes here.</p>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>`;
-
-            if($('.container').length > 0){
-                $('body').find('.container').append(modal);
-            }
-            else if($('.container-fluid').length > 0){
-                $('body').find('.container-fluid').append(modal);
-            }
-            else{
-                console.log('body not has any type of container');
-            }
-
             $(document).on('keyup', '.baTable-search', ba_table_search);
             $(document).on('change', '.baTable-search', ba_table_search);
-            $(document).on('dblclick', 'thead', generate_col_checkboxes);
+            $(document).on('click', '.cols-select', generate_col_checkboxes);
             $(document).on('click', '.form-check-input.tbl-head', select_cols);
             $(document).on('click', '.baTable-head', sorting);
+            $(document).on('click', '.baTable-option', optionbar);
             
      
         };
@@ -196,6 +195,10 @@
             }
             
             el.find('tbody').html(trs);
+        }
+
+        function optionbar() {
+            console.log('menubar');
         }
 
         function ba_table_search() 
@@ -292,15 +295,15 @@
             lock= col.hasClass('required') ? 'disabled' : '';
             
             html += `
-                <div class="form-group form-check">
+                <div class="form-group form-check m-0 ml-2">
                     <input type="checkbox" class="form-check-input tbl-head" id="checkbox-${indx}" data-col-index="${i}" ${chk} ${lock}>
                     <label class="form-check-label" for="checkbox-${indx}">${col.text()} &nbsp;<span class="text-muted">${col.prop('title')}</span></label>
                 </div>
             `;
         });
         
-        $('#ColSelect .modal-body').html(html);
-        $('#ColSelect').modal('show');
+        $('#baTable-mainArea').find('.baTable-optionbar .dropdown-menu').html(html);
+        // $('#ColSelect').modal('show');
     }
 
     function get_timestamp(format=null)

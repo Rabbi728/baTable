@@ -1,6 +1,45 @@
-.baTable-head:after {
+#baTable-mainArea .baTable-head:after {
     content: ' \25B4 \25BE';
     font-size: 12px;
     float: right;
     opacity: 0.6;
   }
+  #baTable-mainArea .baTable-option:after {
+    content: ' \2630';
+    /* font-size: 12px;
+    float: right;
+    opacity: 0.6; */
+  }
+
+  #baTable-mainArea .baTable-optionbar {
+    background-color: #fff;
+    height: 220px;
+    width: 150px;
+    position: absolute;
+    top: 134px;
+    z-index: 1100000;
+    left: 222px;
+    border: 1px solid #000;
+    border-radius: 5px;
+    box-shadow: 0 .5rem 1rem rgba(0,0,0,.15)!important;
+}
+
+#baTable-mainArea .nav-link, #baTable-mainArea .dropdown-item {
+    padding: 3px 2px 2px 0;
+    font-size: 14px;
+    color: #000;
+}
+
+#baTable-mainArea .nav-link:hover, #baTable-mainArea .dropdown-item:hover {
+    background-color: #b1ff32;
+}
+
+#baTable-mainArea .nav-link::before {
+    content: ' \2748';
+    margin-right: 8px;
+    margin-left: 5px;
+}
+
+#baTable-mainArea .dropdown-toggle::after{
+    margin-left: 40px;
+}
