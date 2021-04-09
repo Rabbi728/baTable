@@ -27,16 +27,7 @@
 
             el = $("#baTable-mainArea").find('table');
 
-            let optionbar  =    `
-                            <div class="baTable-optionbar p-2">
-                                <ul class="nav flex-column">
-                                    <li class="nav-item dropright">
-                                        <a class="nav-link dropdown-toggle cols-select" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Columns</a>
-                                        <div class="dropdown-menu">
-                                        
-                                        </div>
-                                    </li>
-                                </ul>
+            let optionbar = `<div class="baTable-optionbar p-2 d-none">
                             </div>`;
 
             $("#baTable-mainArea").append(optionbar);
@@ -132,11 +123,15 @@
 
             $(document).on('keyup', '.baTable-search', ba_table_search);
             $(document).on('change', '.baTable-search', ba_table_search);
-            $(document).on('click', '.cols-select', generate_col_checkboxes);
+            $(document).on('click', '.baTable-option', generate_col_checkboxes);
             $(document).on('click', '.form-check-input.tbl-head', select_cols);
-            $(document).on('click', '.baTable-head', sorting);
-            $(document).on('click', '.baTable-option', optionbar);
-            
+            $(document).on('click', '.baTable-head', sorting); 
+
+            $('body').click(function(event){
+                if ($(event.target).parent('#baTable-mainArea .baTable-optionbar, #baTable-mainArea .baTable-optionbar .form-group').length == 0) {
+                    $('.baTable-optionbar').addClass('d-none');
+                }
+            });            
      
         };
 
@@ -197,10 +192,6 @@
             el.find('tbody').html(trs);
         }
 
-        function optionbar() {
-            console.log('menubar');
-        }
-
         function ba_table_search() 
         {
             let 
@@ -237,11 +228,11 @@
                 let 
                    not_found_html = `
                                     <tr class="not-fount-tr" style="width: 100%; display: flex;">
-                                        <td class="w-100">
+                                        <th class="w-100">
                                             <h4 class="text-center w-100">
                                                 Data Not Found !
                                             </h4>
-                                        </td>
+                                        </th>
                                     </tr>
                                    `;
                 el.find('tbody').append(not_found_html);
@@ -302,7 +293,12 @@
             `;
         });
         
-        $('#baTable-mainArea').find('.baTable-optionbar .dropdown-menu').html(html);
+        let 
+            offset_top  = $('#baTable-mainArea .baTable-option').offset().top,
+            offset_left = $('#baTable-mainArea .baTable-option').offset().left;
+            
+        $('#baTable-mainArea').find('.baTable-optionbar').css({"top" : (offset_top + 20), "left" : (offset_left + 10)});
+        $('#baTable-mainArea').find('.baTable-optionbar').html(html).removeClass('d-none');
         // $('#ColSelect').modal('show');
     }
 

@@ -6,19 +6,14 @@
   }
   #baTable-mainArea .baTable-option:after {
     content: ' \2630';
-    /* font-size: 12px;
-    float: right;
-    opacity: 0.6; */
   }
 
   #baTable-mainArea .baTable-optionbar {
     background-color: #fff;
-    height: 220px;
+    height: auto;
     width: 150px;
     position: absolute;
-    top: 134px;
     z-index: 1100000;
-    left: 222px;
     border: 1px solid #000;
     border-radius: 5px;
     box-shadow: 0 .5rem 1rem rgba(0,0,0,.15)!important;
@@ -42,4 +37,29 @@
 
 #baTable-mainArea .dropdown-toggle::after{
     margin-left: 40px;
+}
+
+#baTable-mainArea table tbody td{
+    white-space: pre;
+    overflow: hidden;
+    border-color: #999;
+    font-size: 12px;
+}
+
+#baTable-mainArea table thead tr:nth-child(3){
+    background-color: #fff;
+    border-bottom: 3px solid #007bff;
+}
+
+#baTable-mainArea table thead tr:nth-child(3) .form-control {
+    background-clip: border-box;
+    border-width: 1px 0;
+    border-top-color: transparent!important;
+    border-radius: 0;
+    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}
+
+#baTable-mainArea table thead tr:nth-child(3) .form-control:focus {
+    outline: 0;
+    box-shadow: 0 0 0 0 transparent, 0 1px 0 #009688;
 }
