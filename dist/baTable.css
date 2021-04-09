@@ -1,0 +1,6 @@
+.baTable-head:after {
+    content: ' \25B4 \25BE';
+    font-size: 12px;
+    float: right;
+    opacity: 0.6;
+  }

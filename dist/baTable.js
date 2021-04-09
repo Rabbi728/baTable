@@ -76,12 +76,13 @@
             tfoot_tr += `<tr>`;
             for (let input = 0; input < thead.length; input++) 
             {
+                $(thead[input]).addClass('baTable-head')
                 let 
                     field = '';
                     this_col_size = $(thead[input]).attr('width');
 
                 if ($(thead[input]).attr('filter') == 'true') {
-                    field = `<input type="text" data-col="${input}" class="form-control form-control-sm ba-table-search">`
+                    field = `<input type="text" data-col="${input}" class="form-control form-control-sm baTable-search">`
                 }
                 else if ($(thead[input]).attr('filter') == 'select') {
                     field = select_filter(input + 1);
@@ -131,14 +132,14 @@
                 console.log('body not has any type of container');
             }
 
-            $(document).on('keyup', '.ba-table-search', ba_table_search);
-            $(document).on('change', '.ba-table-search', ba_table_search);
+            $(document).on('keyup', '.baTable-search', ba_table_search);
+            $(document).on('change', '.baTable-search', ba_table_search);
             $(document).on('dblclick', 'thead', generate_col_checkboxes);
             $(document).on('click', '.form-check-input.tbl-head', select_cols);
+            $(document).on('click', '.baTable-head', sorting);
             
      
         };
-
 
         function select_filter(index) 
         {
@@ -149,7 +150,7 @@
             {
                 unique_data[$(data[i]).text()]=($(data[i]).text());
             }
-            let select  = `<select class="form-control form-control-sm ba-table-search" data-col="${index-1}">`;
+            let select  = `<select class="form-control form-control-sm baTable-search" data-col="${index-1}">`;
                 select  += `<option value="">-- Choose --</option>`;
             for (const key in unique_data) {
                 select += `<option value="${unique_data[key]}">${unique_data[key]}</option>`
@@ -158,13 +159,52 @@
             return select;
         }
 
+        function sorting() 
+        {
+            let 
+                index       = $(this).index(),
+                trs         = el.find(`tbody tr`),
+                sort_attr   = $(this).attr('sort');
+
+            if (sort_attr == undefined || sort_attr == 'asc')
+            {
+                trs.sort(function(a, b) 
+                {
+                    let 
+                        a_val = $(a).find(`td:nth-child(${index + 1})`).text(),
+                        b_val = $(b).find(`td:nth-child(${index + 1})`).text();
+
+                    if (a_val < b_val) {return -1;}
+                    if (a_val > b_val) {return 1;}
+                    return 0;
+                });
+                $(this).attr('sort', 'desc');
+            }
+            else if (sort_attr == 'desc')
+            {
+                trs.sort(function(a, b) 
+                {
+                    let 
+                        a_val = $(a).find(`td:nth-child(${index + 1})`).text(),
+                        b_val = $(b).find(`td:nth-child(${index + 1})`).text();
+
+                    if (a_val < b_val) {return 1;}
+                    if (a_val > b_val) {return -1;}
+                    return 0;
+                });
+                $(this).attr('sort', 'asc');
+            }
+            
+            el.find('tbody').html(trs);
+        }
+
         function ba_table_search() 
         {
             let 
                 search_area     = el.find('tbody tr'),
                 columns         = [];
  
-            $.each($('.ba-table-search'), function(i, v)
+            $.each($('.baTable-search'), function(i, v)
             {
                 if($(v).val().length > 0){
                     let data = {};
