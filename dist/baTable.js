@@ -1,11 +1,10 @@
-
 /*!
- * BA Table Version v1.0 (https://gitlab.com/rabbi728/ba-table)
+ * baTable Version v1.1 (https://github.com/Rabbi728/baTable)
  *
  * Author By Rabbi Ahamed
  * Email : RabbiAhamed0728@gmail.com 
  *
- * Bootstrap Is Required For Use This Plugin
+ * (Bootstrap and proper) Or (Bootstrap.Bundle) Is Required For Use This Plugin
  */
 
 (function($){
@@ -64,7 +63,7 @@
 
             let col_size    = (100 - pre_def_size) / (thead.length - pre_def_count);
             
-            el.find('thead th').not('[width]').attr("width",`${col_size}%`);
+            el.find('thead th').not('[width]').attr("width",`${col_size.toFixed(2)}%`);
                         
             el.find('thead').prepend(`<tr width="100%" style="background: #fff; font-size: 10px; color : #000;">
                                 <th width="100%">
@@ -145,7 +144,7 @@
                 unique_data[$(data[i]).text()]=($(data[i]).text());
             }
             let select  = `<select class="form-control form-control-sm baTable-search" data-col="${index-1}">`;
-                select  += `<option value="">-- Choose --</option>`;
+                select  += `<option value="">Choose</option>`;
             for (const key in unique_data) {
                 select += `<option value="${unique_data[key]}">${unique_data[key]}</option>`
             }

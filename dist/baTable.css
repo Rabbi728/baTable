@@ -1,3 +1,13 @@
+
+/*!
+ * baTable Version v1.1 (https://github.com/Rabbi728/baTable)
+ *
+ * Author By Rabbi Ahamed
+ * Email : RabbiAhamed0728@gmail.com 
+ *
+ * (Bootstrap and proper) Or (Bootstrap.Bundle) Is Required For Use This Plugin
+ */
+
 #baTable-mainArea .baTable-head:after {
     content: ' \25B4 \25BE';
     font-size: 12px;
