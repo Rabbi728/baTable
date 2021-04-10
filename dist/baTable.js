@@ -463,7 +463,7 @@
                     </html>`;
         newWin.document.write(html);
         newWin.print();
-        // newWin.close();
+        newWin.close();
     }
 
     });
