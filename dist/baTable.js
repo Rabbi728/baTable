@@ -1,5 +1,5 @@
 /*!
- * baTable Version v1.2 (https://github.com/Rabbi728/baTable)
+ * baTable Version v1.2.1 (https://github.com/Rabbi728/baTable)
  *
  * Author By Rabbi Ahamed
  * Email : RabbiAhamed0728@gmail.com 
@@ -420,6 +420,9 @@
                                 h3 {text-align: center;}
                                 th, td{
                                     width: auto
+                                }
+                                .d-none{
+                                    display: none;
                                 }
                                 table thead tr:nth-child(3)
                                 {
